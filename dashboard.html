@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseGrid ER Desk | Hospital Operations Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            hospital: {
+              bg: '#0F172A',
+              card: '#1E293B',
+              border: '#334155',
+              accent: '#38BDF8'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0F172A; color: #F8FAFC; font-family: 'Plus Jakarta Sans', sans-serif; }
+    @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .pulse-glow { animation: pulseGlow 2s infinite ease-in-out; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0F172A] text-slate-100 antialiased">
+
+  <!-- TOP BAR -->
+  <header class="bg-[#1E293B] border-b border-slate-700 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-2xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold">
+          <i data-lucide="building-2" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-lg text-white">Manipal Hospital <span class="text-sky-400">ER Operations Desk</span></span>
+          <p class="text-[10px] text-slate-400">HAL Old Airport Road Hub • Live HMS Sync Engine</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold rounded-full flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          HMS LIVE SYNC
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD BODY -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-6">
+
+    <!-- LIVE BED INVENTORY CONTROL PANEL -->
+    <section class="bg-[#1E293B] border border-slate-700 rounded-3xl p-6 space-y-4">
+      <h3 class="text-sm font-bold text-white flex items-center gap-2">
+        <i data-lucide="bed" class="w-4 h-4 text-sky-400"></i>
+        Real-Time Bed Capacity Control (ER Front Desk)
+      </h3>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700">
+          <p class="text-[10px] uppercase font-bold text-slate-400">ICU Beds Available</p>
+          <div class="flex items-center justify-between mt-2">
+            <span id="count-icu" class="text-2xl font-mono font-extrabold text-rose-400">8</span>
+            <div class="flex space-x-1">
+              <button onclick="updateBed('icu', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">-</button>
+              <button onclick="updateBed('icu', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700">
+          <p class="text-[10px] uppercase font-bold text-slate-400">HDU Beds Available</p>
+          <div class="flex items-center justify-between mt-2">
+            <span id="count-hdu" class="text-2xl font-mono font-extrabold text-emerald-400">14</span>
+            <div class="flex space-x-1">
+              <button onclick="updateBed('hdu', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">-</button>
+              <button onclick="updateBed('hdu', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700">
+          <p class="text-[10px] uppercase font-bold text-slate-400">CCU Beds Available</p>
+          <div class="flex items-center justify-between mt-2">
+            <span id="count-ccu" class="text-2xl font-mono font-extrabold text-amber-400">5</span>
+            <div class="flex space-x-1">
+              <button onclick="updateBed('ccu', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">-</button>
+              <button onclick="updateBed('ccu', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700">
+          <p class="text-[10px] uppercase font-bold text-slate-400">General Ward Free</p>
+          <div class="flex items-center justify-between mt-2">
+            <span id="count-gen" class="text-2xl font-mono font-extrabold text-slate-200">22</span>
+            <div class="flex space-x-1">
+              <button onclick="updateBed('gen', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">-</button>
+              <button onclick="updateBed('gen', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold text-xs">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INCOMING EMERGENCY AMBULANCE QUEUE -->
+    <section class="bg-[#1E293B] border border-slate-700 rounded-3xl p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i data-lucide="siren" class="w-4 h-4 text-rose-500 animate-bounce"></i>
+          Incoming Emergency Ambulance Intake Stream
+        </h3>
+        <span class="text-xs font-mono text-slate-400">2 Ambulances En-Route</span>
+      </div>
+
+      <div class="space-y-4">
+        
+        <!-- Ambulance Item 1 -->
+        <div class="bg-slate-900/80 border border-rose-500/30 rounded-2xl p-5 space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <span class="text-xs font-bold font-mono text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 rounded">CRITICAL intake</span>
+              <h4 class="font-bold text-white text-base mt-1">Vehicle KA-01-EA-9021</h4>
+              <p class="text-xs text-slate-400">Patient: Gavin Dmello (Cardiac Emergency) • TPA: Star Health Verified</p>
+            </div>
+            <div class="text-right">
+              <span class="text-sm font-mono font-extrabold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-xl">ETA: 11 MINS</span>
+              <p class="text-[10px] text-slate-500 mt-1">15-Min Hold Window Running</p>
+            </div>
+          </div>
+
+          <!-- Live Telemetry Stream -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="bg-slate-800 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-slate-400 text-[10px] uppercase font-bold">Heart Rate</span>
+              <p class="text-base font-bold font-mono text-rose-400 mt-0.5">86 BPM</p>
+            </div>
+            <div class="bg-slate-800 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-slate-400 text-[10px] uppercase font-bold">SpO2 Level</span>
+              <p class="text-base font-bold font-mono text-emerald-400 mt-0.5">98%</p>
+            </div>
+            <div class="bg-slate-800 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-slate-400 text-[10px] uppercase font-bold">Requested Bed</span>
+              <p class="text-base font-bold text-white mt-0.5">ICU Bed #04</p>
+            </div>
+            <div class="bg-slate-800 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-slate-400 text-[10px] uppercase font-bold">Green Corridor</span>
+              <p class="text-base font-bold text-emerald-400 mt-0.5">ACTIVE</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-3 pt-1">
+            <button onclick="confirmIntake('KA-01-EA-9021')" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-all">
+              Confirm Intake & Prepare ER Dock #02
+            </button>
+            <button onclick="reassignBed('KA-01-EA-9021')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition-all">
+              Reassign Bed
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const beds = { icu: 8, hdu: 14, ccu: 5, gen: 22 };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    function updateBed(type, delta) {
+      if (beds[type] + delta < 0) return;
+      beds[type] += delta;
+      document.getElementById(`count-${type}`).innerText = beds[type];
+    }
+
+    function confirmIntake(vehicle) {
+      alert(`Intake Confirmed for Ambulance ${vehicle}! ER Triage Dock Notification Sent.`);
+    }
+
+    function reassignBed(vehicle) {
+      alert(`Bed Reassignment Modal Opened for Vehicle ${vehicle}.`);
+    }
+  </script>
+</body>
+</html>
